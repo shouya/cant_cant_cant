@@ -2,70 +2,62 @@ require 'yaml'
 
 module CantCantCant
   class PermissionDenied < RuntimeException; end
-  class ActionNotFound < RuntimeException; end
+  class InvalidControllerOrAction < RuntimeException; end
+  class InvalidConfiguration < RuntimeException; end
 
-  CONFIG_FILE = File.join(Rails.root, 'config/cantcantcant.yml').freeze
+  CONFIG_FILE = File.join(Rails.root, 'config/cant_cant_cant.yml').freeze
 
-  def allow?(action_ref, roles)
-    roles.each do
-      return true if permissions_table[action_ref].include?(role)
+  def inject_actions
+    validate_config
+
+    permission_table.values.map(&:keys).flatten.uniq.each do |param|
+      inject_action(param)
+    end
+  end
+
+  def allow?(param, roles)
+    return false if roles.empty?
+    roles.each do |role|
+      role_spec = permission_table[role]
+      next if role_spec[param].empty?
+      next if role_spec[param] == 'deny'
+      return true if role_spec[param] == 'allow'
     end
     false
   end
 
-  def roles_permissions(roles)
-    table = []
-    roles.map do |role|
-      table |= inverted_permissions[role]
-    end
-    table
-  end
-
   private
 
-  def config
-    @config ||= YAML.load_file(CONFIG_FILE).freeze
+  def permission_table
+    @permission_table ||= YAML.load_file(CONFIG_FILE).freeze
   end
 
-  def permissions
-    @permissions ||= config['permissions'].freeze
+  def extract_controller(param)
+    controller, action = param.split('#')
+    raise if controller.empty? || action.empty?
+
+    controller = (controller.classify + 'Controller').constantize
+    raise unless controller.instance_methods(false).map(&:to_s).include? action
+
+    [controller, action]
+  rescue RuntimeError, NameError
+    raise InvalidControllerOrAction, param
   end
 
-  def inverted_permissions
-    return @inverted_permissions if @inverted_permissions
-
-    @inverted_permissions = Hash.new { [] }
-    permissions.each do |action_ref, roles|
-      roles.each do |role|
-        @inverted_permissions[role] << action_ref
-      end
-    end.freeze
-    @inverted_permissions
-  end
-
-  def inject_action(action_ref)
-    controller = parse_controller(action)
-    action = parse_action(controller, action_ref)
-
+  def inject_action(param)
+    controller, action = extract_controller(param)
     controller.class_eval do
       set_callback(action, :before) do
-        raise PermissionDenied, action_ref unless allow?(action_ref, roles)
+        raise PermissionDenied, param unless allowed?(param, roles)
       end
     end
   end
 
-  def roles
-    # todo
-  end
-
-  def parse_controller(action_ref)
-    (action_ref.split('#').first.classify + 'Controller').constantize
-  end
-
-  def parse_action(controller, action_ref)
-    action = action_ref.split('#').last.intern
-    actions = controller.instance_methods(false)
-    raise ActionNotFound, action_ref unless action.in?(actions)
-    action
+  def validate_config
+    permission_table.each do |_, perms|
+      perms.each do |params, access|
+        raise InvalidConfiguration, params unless access.in? %w(allow deny)
+      end
+    end
   end
 end

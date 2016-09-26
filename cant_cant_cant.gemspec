@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.authors     = ["Shou Ya"]
   s.email       = ["github@lain.li"]
   s.homepage    = "https://github.com/shouya/cantcantcant"
-  s.summary     = "Controller action authorization in a single file"
+  s.summary     = "CanCan[Can] just can't satisfy me"
   s.description = s.summary
   s.license     = "MIT"
 
