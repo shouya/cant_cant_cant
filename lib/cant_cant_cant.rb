@@ -1,11 +1,11 @@
 require 'yaml'
 
 module CantCantCant
-  class PermissionDenied < RuntimeException; end
-  class InvalidControllerOrAction < RuntimeException; end
-  class InvalidConfiguration < RuntimeException; end
+  PermissionDenied = Class.new(RuntimeError)
+  InvalidControllerOrAction = Class.new(RuntimeError)
+  InvalidConfiguration = Class.new(RuntimeError)
 
-  CONFIG_FILE = File.join(Rails.root, 'config/cant_cant_cant.yml').freeze
+  CONFIG_FILE = File.join('x', 'config/cant_cant_cant.yml').freeze
 
   def inject_actions
     validate_config
@@ -48,15 +48,18 @@ module CantCantCant
     controller, action = extract_controller(param)
     controller.class_eval do
       set_callback(action, :before) do
-        raise PermissionDenied, param unless allowed?(param, roles)
+        next true if allowed?
+        raise PermissionDenied, param
       end
     end
   end
 
   def validate_config
     permission_table.each do |_, perms|
-      perms.each do |params, access|
-        raise InvalidConfiguration, params unless access.in? %w(allow deny)
+      perms.each do |param, access|
+        next unless access.empty?
+        next unless access.in? %w(allow deny)
+        raise InvalidConfiguration, param
       end
     end
   end

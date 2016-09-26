@@ -1,4 +1,5 @@
-source 'https://rubygems.org'
+source 'https://ruby.taobao.org'
+# source 'https://rubygems.org'
 
 # Declare your gem's dependencies in cant_cant_cant.gemspec.
 # Bundler will treat runtime dependencies like base dependencies, and
