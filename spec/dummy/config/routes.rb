@@ -1,3 +1,5 @@
 Rails.application.routes.draw do
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  get '/test/public', to: 'test#public'
+  get '/test/admin_only', to: 'test#admin_only'
+  get '/test/no_access', to: 'test#no_access'
 end
