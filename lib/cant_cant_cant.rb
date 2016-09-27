@@ -29,7 +29,7 @@ module CantCantCant
       @cache[roles.sort.join(',')] ||=
         permission_table
         .values_at(*roles)
-        .map(&:present?)
+        .select(&:present?)
         .map { |x| x.keep_if { |_, v| v == 'allow' }.keys }
         .flatten
         .uniq
