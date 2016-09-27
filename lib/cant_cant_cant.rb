@@ -26,6 +26,14 @@ module CantCantCant
     false
   end
 
+  def permissoins_for(roles)
+    permission_table
+      .values_at(*roles)
+      .map { |x| x.keep_if { |_, v| v == 'allow' }.keys }
+      .flatten
+      .uniq
+  end
+
   private
 
   def permission_table
@@ -48,7 +56,7 @@ module CantCantCant
     controller, action = extract_controller(param)
     controller.class_eval do
       set_callback(action, :before) do
-        next true if allowed?
+        next true if allowed?(param, current_roles)
         raise PermissionDenied, param
       end
     end
