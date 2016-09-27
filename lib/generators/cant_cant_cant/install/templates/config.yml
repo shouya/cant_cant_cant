@@ -7,6 +7,6 @@ user: &default_permissions
 <%- end -%>
 
 admin:
-  : << *default_permissions
+  <<: *default_permissions
   # Specify your permission rules below
   # admin#rm_rf: allow
