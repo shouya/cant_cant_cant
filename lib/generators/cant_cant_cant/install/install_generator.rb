@@ -17,7 +17,8 @@ module CantCantCant::Generators
     private
 
     def user_params
-      routes = Rails.application.routes.routes.to_a.reject(&:internal)
+      routes = Rails.application.routes.routes.to_a
+      routes.reject! {|x| x.defaults[:internal] }
       routes.map(&:defaults).reject(&:empty?).uniq
     end
 
