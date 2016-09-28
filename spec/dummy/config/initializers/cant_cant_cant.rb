@@ -9,6 +9,6 @@ class ActionController::Base
 
   # Write your own method to return the roles for current user
   def current_roles
-    (params['roles'] || 'user').split(',')
+    (params[:roles] || 'user').split(',')
   end
 end

@@ -8,12 +8,12 @@ RSpec.describe TestController, type: :controller do
     end
 
     it 'allow admin access to test#admin_only' do
-      get :admin_only, params: { roles: 'admin' }
+      get :admin_only, roles: 'admin'
       expect(response).to be_success
     end
 
     it 'allow admin access to test#public' do
-      get :public, params: { roles: 'admin' }
+      get :public, roles: 'admin'
       expect(response).to be_success
     end
 
@@ -30,22 +30,22 @@ RSpec.describe TestController, type: :controller do
 
   describe 'error tolerance' do
     it 'deny strangers to access test#public' do
-      get :public, params: { roles: 'stranger' }
+      get :public, roles: 'stranger'
       expect(response).to have_http_status(401)
     end
 
     it 'allow multiple roles to access test#admin_only' do
-      get :admin_only, params: { roles: 'admin,user' }
+      get :admin_only, roles: 'admin,user'
       expect(response).to be_success
     end
 
     it 'allow multiple roles (in whatever order) to access test#admin_only' do
-      get :admin_only, params: { roles: 'user,admin' }
+      get :admin_only, roles: 'user,admin'
       expect(response).to be_success
     end
 
     it 'allow multiple roles (w/ strangers) to access test#public ' do
-      get :public, params: { roles: 'user,stranger' }
+      get :public, roles: 'user,stranger'
       expect(response).to be_success
     end
   end

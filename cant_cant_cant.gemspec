@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.version     = CantCantCant::VERSION
   s.authors     = ["Shou Ya"]
   s.email       = ["github@lain.li"]
-  s.homepage    = "https://github.com/shouya/cantcantcant"
+  s.homepage    = "https://github.com/shouya/cant_cant_cant"
   s.summary     = "CanCan[Can] just can't satisfy me"
   s.description = s.summary
   s.license     = "MIT"
@@ -17,7 +17,7 @@ Gem::Specification.new do |s|
   s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
   s.require_path = 'lib'
 
-  s.add_dependency "rails", "~> 5.0.0"
+  s.add_dependency "rails", "~> 4.2.0"
 
   s.add_development_dependency "sqlite3"
   s.add_development_dependency "rspec-rails"
