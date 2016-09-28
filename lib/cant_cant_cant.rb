@@ -45,7 +45,7 @@ module CantCantCant
       controller, action = param.split('#')
       raise if controller.blank? || action.blank?
 
-      controller = (controller.classify + 'Controller').constantize
+      controller = (controller + '_controller').classify.constantize
       raise unless action.in? controller.instance_methods(false).map(&:to_s)
 
       [controller, action]
