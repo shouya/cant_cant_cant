@@ -1,5 +1,7 @@
 # CantCantCant
 
+[![Build Status](https://travis-ci.org/shouya/cant_cant_cant.svg?branch=master)](https://travis-ci.org/shouya/cant_cant_cant)
+
 I want an authentication to:
 
 - be light weight and simple, working in a controllable way;
