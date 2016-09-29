@@ -46,7 +46,6 @@ module CantCantCant
       raise if controller.blank? || action.blank?
 
       controller = (controller + '_controller').classify.constantize
-      raise unless action.in? controller.instance_methods(false).map(&:to_s)
 
       [controller, action]
     rescue RuntimeError, NameError
