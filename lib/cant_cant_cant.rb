@@ -42,19 +42,20 @@ module CantCantCant
     end
 
     def extract_controller(param)
-      controller, action = param.split('#')
+      controller_param, action = param.split('#')
       raise if controller.blank? || action.blank?
 
-      controller = (controller + '_controller').classify.constantize
+      const_name = "#{controller_param.classify}Controller"
+      controller_class = ActiveSupport::Dependencies.constantize(const_name)
 
-      [controller, action]
+      [controller_class, action]
     rescue RuntimeError, NameError
       raise InvalidControllerOrAction, param
     end
 
     def inject_action(param)
-      controller, action = extract_controller(param)
-      controller.class_eval do
+      controller_class, action = extract_controller(param)
+      controller_class.class_eval do
         before_action(only: [action]) do
           next true if CantCantCant.allow?(param, current_roles)
           raise PermissionDenied, param
