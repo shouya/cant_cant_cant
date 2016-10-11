@@ -2,7 +2,6 @@ require 'yaml'
 
 module CantCantCant
   PermissionDenied = Class.new(RuntimeError)
-  InvalidControllerOrAction = Class.new(RuntimeError)
   InvalidConfiguration = Class.new(RuntimeError)
 
   class << self
@@ -45,12 +44,10 @@ module CantCantCant
       controller_param, action = param.split('#')
       raise if controller_param.blank? || action.blank?
 
-      const_name = "#{controller_param.classify}Controller"
+      const_name = "#{controller_param.camelize}Controller"
       controller_class = ActiveSupport::Dependencies.constantize(const_name)
 
       [controller_class, action]
-    rescue RuntimeError, NameError
-      raise InvalidControllerOrAction, param
     end
 
     def inject_action(param)
