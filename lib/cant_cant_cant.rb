@@ -25,9 +25,10 @@ module CantCantCant
     end
 
     def permissions_for(roles)
+      roles = [roles] unless roles.is_a? Array
       @cache[roles.sort.join(',')] ||=
         permission_table
-        .values_at(*roles)
+        .values_at(*roles.map(:to_s))
         .select(&:present?)
         .map { |x| x.keep_if { |_, v| v == 'allow' }.keys }
         .flatten
@@ -53,9 +54,10 @@ module CantCantCant
     def inject_action(param)
       controller_class, action = extract_controller(param)
       controller_class.class_eval do
-        before_action(only: [action]) do
-          next true if CantCantCant.allow?(param, current_roles)
-          raise PermissionDenied, param
+        before_action(only: action) do
+          roles = current_roles
+          next true if CantCantCant.allow?(param, roles)
+          raise PermissionDenied, [param, roles]
         end
       end
     end
