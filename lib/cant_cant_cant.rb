@@ -28,7 +28,7 @@ module CantCantCant
       roles = [roles] unless roles.is_a? Array
       @cache[roles.sort.join(',')] ||=
         permission_table
-        .values_at(*roles.map(:to_s))
+        .values_at(*roles.map(&:to_s))
         .select(&:present?)
         .map { |x| x.keep_if { |_, v| v == 'allow' }.keys }
         .flatten
