@@ -1,8 +1,10 @@
 # CantCantCant
 
 [![Build Status](https://travis-ci.org/shouya/cant_cant_cant.svg?branch=master)](https://travis-ci.org/shouya/cant_cant_cant)
+[![Gem Version](https://badge.fury.io/rb/cant_cant_cant.svg)](https://rubygems.org/gems/cant_cant_cant)
+[![Ruby Doc](https://img.shields.io/badge/rubydoc-lastest-brightgreen.svg)](http://www.rubydoc.info/gems/cant_cant_cant)
 
-I want an authentication to:
+I want an authentication library to:
 
 - be light weight and simple, working in a controllable way;
 - be role based, where roles and users are multiple-to-multiple relation;
@@ -34,7 +36,7 @@ CantCantCant will raise an exception on unauthorized access. In order to handle 
 
 You're done. There is no need to configure more in any of your controllers.
 
-Note that live reloading is not supported yet; it means you'll need to restart your server after modifying your actions/controllers/config to take effect.
+<s>Note that live reloading is not supported yet; it means you'll need to restart your server after modifying your actions/controllers/config to take effect.</s> Live reloading can be enabled by setting `config.caching = false` to force CantCantCant load your permission file without caching them.
 
 If you need to acquire a list of actions that given roles have access to, just call `CantCantCant.allowed_actions_for(roles)`.
 
