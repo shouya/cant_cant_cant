@@ -36,7 +36,7 @@ You're done. There is no need to configure more in any of your controllers.
 
 Note that live reloading is not supported yet; it means you'll need to restart your server after modifying your actions/controllers/config to take effect.
 
-If you need to acquire a list of actions that given roles have access to, just call `CantCantCant.permissions_for(roles)`.
+If you need to acquire a list of actions that given roles have access to, just call `CantCantCant.allowed_actions_for(roles)`.
 
 
 ## Configuration

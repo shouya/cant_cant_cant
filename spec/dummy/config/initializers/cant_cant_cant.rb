@@ -1,5 +1,5 @@
-config = File.join(Rails.root, 'config/cant_cant_cant.yml')
-CantCantCant.initialize(config)
+perm_file = File.join(Rails.root, 'config/cant_cant_cant.yml')
+CantCantCant.initialize(perm_file)
 
 class ActionController::Base
   # Write your own handler

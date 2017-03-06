@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    cant_cant_cant (0.1.4)
+    cant_cant_cant (0.1.10)
       rails (>= 4.2.0)
 
 GEM
@@ -42,9 +42,9 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
-    arel (6.0.3)
+    arel (6.0.4)
     builder (3.2.2)
-    concurrent-ruby (1.0.2)
+    concurrent-ruby (1.0.5)
     diff-lcs (1.2.5)
     erubis (2.7.0)
     globalid (0.3.7)
@@ -109,7 +109,7 @@ GEM
       rspec-mocks (~> 3.5.0)
       rspec-support (~> 3.5.0)
     rspec-support (3.5.0)
-    sprockets (3.7.0)
+    sprockets (3.7.1)
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
     sprockets-rails (3.2.0)
@@ -131,4 +131,4 @@ DEPENDENCIES
   sqlite3
 
 BUNDLED WITH
-   1.12.5
+   1.13.6
